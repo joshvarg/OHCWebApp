@@ -11,6 +11,23 @@
         <header class="navbar navbar-expand-md"style="background-color: #5acef2">
             <div class="text-light" style="font-family: Cambria;font-size: 38px"><strong>&nbsp&nbspOhioHealthCSE</strong></div>
         </header>
+        <?php
+            session_start();
+            $dSSN = $_SESSION["dSSN"];
+            $conn = new mysqli('localhost', 'david', 'phpwd', 'OHCTEST');
+
+            if(isset($_POST['hosp'])){
+                if (is_array($_POST['hosp'])) {
+                        foreach($_POST['hosp'] as $hospital){
+                        $sql = "insert into practices_at(dSSN, HospitalID) value ('".$dSSN."','".$hospital."')";
+                        $result = mysqli_query($conn, $sql);
+                    }
+                } else {
+                    $sql = "insert into practices_at(dSSN, HospitalID) value ('".$dSSN."','".$hospital."')";
+                    $result = mysqli_query($conn, $sql);
+                }
+            }
+        ?>
         <div>
             <div class="container">
                 <div class="row justify-content-center" style="margin-top: 30px">
@@ -71,7 +88,7 @@
                 </div>
                 <div class="row justify-content-end">
                     <div class="col-1">
-                        <a class="button btn-primary btn mb-3" style="margin-top: 40px" href="./doctor_day_times.html" role="button">
+                        <a class="button btn-primary btn mb-3" style="margin-top: 40px" href="./doctor_day_times.php" role="button">
                             Next
                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
                                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>

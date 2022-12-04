@@ -20,21 +20,26 @@
                 </div>
                   <ul class="nav nav-tabs nav-fill", style="margin-top:30px">
                     <li class="nav-item">
-                      <a class="nav-link" aria-current="page" href="./doctor_homepageA.html">Hospital A</a>
+                      <a class="nav-link" aria-current="page" href="./doctor_homepageA.php">Hospital A</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="./doctor_homepageB.html">Hospital B</a>
+                      <a class="nav-link active" href=#>Hospital B</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link active" href=#>Treatment Details</a>
+                      <a class="nav-link" href="./doctor_homepageTreatment.php">Treatment Details</a>
                     </li>
                   </ul>
                   <div class="container">
                     <div class="row justify-content-center">
                         <div class="col text display">
-                           <div class="col text display" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin-top: 20px"><strong>Treatments and Fees</strong></div>
+                           <div class="col text display" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin-top: 20px"><strong>Schedule</strong></div>
                        </div>
                    </div>
+                   <div class="row justify-content-center">
+                    <div class="col text display">
+                       <div class="col text display" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin-top: 20px"><strong>Treatments</strong></div>
+                   </div>
+               </div>
                </div>
             </div>
         </div>

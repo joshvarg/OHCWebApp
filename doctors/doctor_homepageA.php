@@ -23,10 +23,10 @@
                       <a class="nav-link active" aria-current="page" href=#>Hospital A</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="./doctor_homepageB.html">Hospital B</a>
+                      <a class="nav-link" href="./doctor_homepageB.php">Hospital B</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="./doctor_homepageTreatment.html">Treatment Details</a>
+                      <a class="nav-link" href="./doctor_homepageTreatment.php">Treatment Details</a>
                     </li>
                   </ul>
                 <div class="container">

@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
+    "\\administrators",
     "\\doctors"
   ],
-  "SelectedNode": "\\doctors\\doctor_login.html",
+  "SelectedNode": "\\administrators\\administrator.html",
   "PreviewInSolutionExplorer": false
 }
