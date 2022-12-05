@@ -13,23 +13,23 @@
             {
                 session_destroy();
             }
-            session_unset();
+            session_unset(); 
         ?>
-        <header class="navbar navbar-expand-md" style="background-color: #5acef2">
+        <header class="navbar navbar-expand-md"style="background-color: #5acef2">
             <div class="text-light" style="font-family: Cambria;font-size: 38px"><strong>&nbsp&nbspOhioHealthCSE</strong></div>
         </header>
         <div>
             <div class="container">
                 <div class="row justify-content-center" style="margin-top: 100px">
-                    <div class="col text-center display-3" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"><strong>Login</strong></div>
+                    <div class="col text-center display-3" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"><strong>Register</strong></div>
                 </div>
                 <div class="row" style="margin-top: 50px">
                     <div class="col">
                     </div>
                     <div class="col-6">
-                        <form method="post" action="./doctor_confirm_login.php">
+                        <form method="post" action="./doctor_hospitals.php">
                             <label>Name</label><br>
-                            <input class="form-control mb-3" placeholder="Name">
+                            <input class="form-control mb-3" name="dName" placeholder="Name">
                             <label for="dssn" class="form-label">SSN</label><br>
                             <input class="form-control mb-1" name="dSSN" placeholder="123456789" pattern="[0-9]{3}[0-9]{2}[0-9]{4}" maxlength="9"><br>
 
@@ -39,7 +39,6 @@
                                 </div>
                             </div>
                         </form>
-                        <a href="./doctor_register.php">Don't have and account? Register here!</a>
                     </div>
                     <div class="col">
                     </div>

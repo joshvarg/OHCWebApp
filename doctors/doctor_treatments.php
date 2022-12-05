@@ -49,7 +49,7 @@
                             $conn = new mysqli($localhost, $user, $phpwd, $db);
                             $sql1 = 'select hName, HospitalID from hospital, practices_at where practices_at.dSSN = \''.$dSSN.'\' and practices_at.pHID = hospital.HospitalID';
                             $result1 = mysqli_query($conn, $sql1);
-                            $sql2 = 'select tName, TreatmentCode from treatment';
+                            $sql2 = 'select tName, TreatmentCode from treatment order by field(tName, "Immunization", "Chest X-ray", "Physical Exam", "Diagnostic")';
                             while($row = mysqli_fetch_array($result1)) {
                                 $HID = $row['HospitalID'];
                                 echo "<div class=\"col text-center display\">";

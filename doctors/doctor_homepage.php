@@ -14,12 +14,25 @@
         <?php
             session_start();
             $dSSN = $_SESSION["dSSN"];
+
+            $localhost = 'localhost';
+            $user = 'david';
+            $phpwd = 'phpwd';
+            $db = 'OHCTEST';
+
+            $conn = new mysqli($localhost, $user, $phpwd, $db);
         ?>
         <div>
             <div class="container">
                 <div class="row justify-content-center" style="margin-top: 10px">
                     <div class="col text-center display">
-                        <div class="col text-center display-6" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin-top: 40px"><strong>Welcome, ______! </strong></div>
+                    <?php
+                        $sql = $sql = 'select dName from doctor where doctor.dSSN = "'.$dSSN.'";';
+                        $result = mysqli_query($conn, $sql);
+                            while($row = mysqli_fetch_array($result)) {
+                                echo "<div class=\"col text-center display-6\" style=\"font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin-top: 40px\"><strong>Welcome, &nbsp;".$row["dName"]."! </strong></div>";
+                            }
+                    ?>
                     </div>
                 </div>
                   <ul class="nav nav-tabs nav-fill", style="margin-top:30px">

@@ -8,7 +8,7 @@ Create table if not exists SCHEDULE (
     sTime time not null,
     day varchar(10) not null,
     dSSN char(9) not null,
-    PRIMARY KEY(scheduleID)
+    PRIMARY KEY(hospitalID, sTime, day, dSSN)
 );
 
 Create table if not exists TREATMENT (
@@ -84,7 +84,7 @@ Create table if not exists APPOINTMENT(
     day varchar(10) not null,
     dSSN char(9) not null,
     pSSN char(9),
-    PRIMARY KEY pSSN(sTime,day,dSSN),
+    PRIMARY KEY pSSN(aTime,day,dSSN),
     FOREIGN KEY(aTime) REFERENCES SCHEDULE(sTime),
     FOREIGN KEY(day) REFERENCES SCHEDULE(day),
     FOREIGN KEY(dSSN) REFERENCES DOCTOR(dSSN),
