@@ -1,6 +1,6 @@
 Create table if not exists DOCTOR (
     dSSN char(9) primary key not null,
-    dName varchar(255) not null,
+    dName varchar(255) not null
 );
 
 Create table if not exists SCHEDULE (
@@ -15,7 +15,7 @@ Create table if not exists TREATMENT (
     treatmentCode char(5) not null,
     tName varchar(255) not null,
     primary key(treatmentCode),
-    UNIQUE(tName),
+    UNIQUE(tName)
 );
 
 Create table if not exists HOSPITAL (
@@ -23,7 +23,7 @@ Create table if not exists HOSPITAL (
     hName varchar(255) not null,
     hAddress varchar(255) not null,
     UNIQUE(hName),
-    UNIQUE(hAddress),
+    UNIQUE(hAddress)
 );
 
 Create table if not exists BILL (
@@ -35,26 +35,25 @@ Create table if not exists BILL (
     bTime time not null,
     facility_fee float not null,
     pSSN char(9) not null,
-    hName REFERENCES HOSPITAL(hospitalID),
+    FOREIGN KEY(hName) REFERENCES HOSPITAL(hospitalID)
 );
 
 Create table if not exists PATIENT (
     pSSN char(9) primary key,
     pName varchar(255) not null,
-    in_network boolean not null,
+    in_network boolean not null
 );
 
 Create table if not exists IN_OHC (
     billID char(5) primary key,
     rate float not null,
-    billID REFERENCES BILL(billID)
+    FOREIGN KEY(billID) REFERENCES BILL(billID)
 );
 
 Create table if not exists OUT_OHC (
     billID char(5) primary key,
     rate float not null,
-    billID REFERENCES BILL(billID)
-
+    FOREIGN KEY(billID) REFERENCES BILL(billID)
 );
 
 Create table if not exists PRACTICES_AT (
@@ -62,7 +61,7 @@ Create table if not exists PRACTICES_AT (
     hospitalID char(5) not null,
     fee float not null,
     PRIMARY KEY(dSSN, hospitalID),
-    dSSN REFERENCES DOCTOR(dSSN)
+    FOREIGN KEY(dSSN) REFERENCES DOCTOR(dSSN)
 );
 
 Create table if not exists ITEMIZED_IN (
@@ -85,16 +84,16 @@ Create table if not exists APPOINTMENT(
     day varchar(10) not null,
     dSSN char(9) not null,
     pSSN char(9),
-    PRIMARY KEY pSSN(sTime,day,dSSN)
-    aTime REFERENCES SCHEDULE(sTime),
-    day REFERENCES SCHEDULE(day),
-    dSSN REFERENCES DOCTOR(dSSN),
-    pSSN REFERENCES PATIENT(pSSN)
+    PRIMARY KEY pSSN(sTime,day,dSSN),
+    FOREIGN KEY(aTime) REFERENCES SCHEDULE(sTime),
+    FOREIGN KEY(day) REFERENCES SCHEDULE(day),
+    FOREIGN KEY(dSSN) REFERENCES DOCTOR(dSSN),
+    FOREIGN KEY(pSSN) REFERENCES PATIENT(pSSN)
 );
 
 Create table if not exists DOCTOR_TREATMENT (
 	dTCode char(10) not null,
 	dSSN char (9) not null,
 	tHID char(10) not null,
-	primary key (treatmentCode, dSSN, tHID)
+	primary key (dTCode, dSSN, tHID)
 );
