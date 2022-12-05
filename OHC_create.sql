@@ -14,7 +14,6 @@ Create table if not exists SCHEDULE (
 Create table if not exists TREATMENT (
     treatmentCode char(5) not null,
     tName varchar(255) not null,
-    treatment_fee float not null,
     primary key(treatmentCode),
     UNIQUE(tName),
 );
@@ -91,4 +90,11 @@ Create table if not exists APPOINTMENT(
     day REFERENCES SCHEDULE(day),
     dSSN REFERENCES DOCTOR(dSSN),
     pSSN REFERENCES PATIENT(pSSN)
+);
+
+Create table if not exists DOCTOR_TREATMENT (
+	dTCode char(10) not null,
+	dSSN char (9) not null,
+	tHID char(10) not null,
+	primary key (treatmentCode, dSSN, tHID)
 );
