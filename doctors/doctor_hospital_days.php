@@ -14,88 +14,73 @@
         <?php
             session_start();
             $dSSN = $_SESSION["dSSN"];
-            $conn = new mysqli('localhost', 'david', 'phpwd', 'OHCTEST');
+
+            $localhost = 'localhost';
+            $user = 'david';
+            $phpwd = 'phpwd';
+            $db = 'OHCTEST';
+
+            $conn = new mysqli($localhost, $user, $phpwd, $db);
 
             if(isset($_POST['hosp'])){
                 if (is_array($_POST['hosp'])) {
                         foreach($_POST['hosp'] as $hospital){
-                        $sql = "insert into practices_at(dSSN, HospitalID) value ('".$dSSN."','".$hospital."')";
+                        $sql = "insert into practices_at(dSSN, pHID) value ('".$dSSN."','".$hospital."')";
                         $result = mysqli_query($conn, $sql);
                     }
                 } else {
-                    $sql = "insert into practices_at(dSSN, HospitalID) value ('".$dSSN."','".$hospital."')";
+                    $sql = "insert into practices_at(dSSN, pHID) value ('".$dSSN."','".$hospital."')";
                     $result = mysqli_query($conn, $sql);
                 }
             }
         ?>
         <div>
             <div class="container">
-                <div class="row justify-content-center" style="margin-top: 30px">
-                    <div class="col text-center display">
-                        <div class="col text-center display" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin-top: 100px"><strong>Please select the day(s) you can be scheduled in Hospital A</strong></div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="btn-group-vertical" role="group" aria-label="Hospital Day Selection">
-                                <input type="checkbox" class="btn-check" id="btncheck1A" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="btncheck1A">Monday</label>
+                <form action="./doctor_day_times.php" method="post">
+                    <?php
+                        $dSSN = $_SESSION["dSSN"];
+                        $conn = new mysqli($localhost, $user, $phpwd, $db);
+                        $sql = 'select hName, HospitalID FROM hospital, practices_at where practices_at.dSSN = "'.$dSSN.'" and hospital.HospitalID = practices_at.pHID';
+                        $result = mysqli_query($conn, $sql);
+                        while($row = mysqli_fetch_array($result)) {
+                            echo '<div class="row text_center justify-content-center" style="margin-top: 30px';
+                            echo '<div class="text-center">
+                                <div class="text-center" style="font-family:\'Gill Sans\', \'Gill Sans MT\', Calibri, \'Trebuchet MS\', sans-serif; margin-top: 100px"><strong>Please select the day(s) you can be scheduled in ', $row['hName'],'</strong></div>
+                                    <div class="d-flex justify-content-center" style="margin-top: 10px">
+                                        <div class="btn-group" role="group" aria-label="', $row['hName'],' Day Selection">
+                                            <input type="checkbox" class="btn-check" id="Monday', $row['HospitalID'],'" name="hosp', $row['HospitalID'],'[]" value="Monday" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="Monday', $row['HospitalID'],'">Monday</label>
                               
-                                <input type="checkbox" class="btn-check" id="btncheck2A" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="btncheck2A">Chewsday</label>
+                                            <input type="checkbox" class="btn-check" id="Tuesday', $row['HospitalID'],'" name="hosp', $row['HospitalID'],'[]" value="Tuesday" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="Tuesday', $row['HospitalID'],'">Tuesday</label>
                               
-                                <input type="checkbox" class="btn-check" id="btncheck3A" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="btncheck3A">Wednesday</label>
+                                            <input type="checkbox" class="btn-check" id="Wednesday', $row['HospitalID'],'" name="hosp', $row['HospitalID'],'[]" value="Wednesday" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="Wednesday', $row['HospitalID'],'">Wednesday</label>
 
-                                <input type="checkbox" class="btn-check" id="btncheck4A" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="btncheck4A">Thursday</label>
+                                            <input type="checkbox" class="btn-check" id="Thursday', $row['HospitalID'],'" name="hosp', $row['HospitalID'],'[]" value="Thursday" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="Thursday', $row['HospitalID'],'">Thursday</label>
                               
-                                <input type="checkbox" class="btn-check" id="btncheck5A" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="btncheck5A">Friday</label>
+                                            <input type="checkbox" class="btn-check" id="Friday', $row['HospitalID'],'" name="hosp', $row['HospitalID'],'[]" value="Friday" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="Friday', $row['HospitalID'],'">Friday</label>
                               
-                                <input type="checkbox" class="btn-check" id="btncheck6A" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="btncheck6A">Saturday</label>
+                                            <input type="checkbox" class="btn-check" id="Saturday', $row['HospitalID'],'" name="hosp', $row['HospitalID'],'[]" value="Saturday" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="Saturday', $row['HospitalID'],'">Saturday</label>
 
-                                <input type="checkbox" class="btn-check" id="btncheck7A" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="btncheck7A">Sunday</label>
-                            </div>
+                                            <input type="checkbox" class="btn-check" id="Sunday', $row['HospitalID'],'" name="hosp', $row['HospitalID'],'[]" value="Sunday" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="Sunday', $row['HospitalID'],'">Sunday</label>
+                                        </div>
+                                    </div>
+                                </div>';
+                            echo '</div>';
+                            echo '</div>';
+                        }
+                    ?>
+                    <div class="row justify-content-end style="margin-top: 50px"">
+                        <div class="col-1">
+                            <input type="submit">
                         </div>
                     </div>
-                    <div class="col text-center display">
-                        <div class="col text-center display" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin-top: 100px"><strong>Please select the day(s) you can be scheduled in Hospital B</strong></div>
-                        <div class="row" style="margin-top: 10px">
-                            <div class="btn-group-vertical" role="group" aria-label="Hospital Day Selection">
-                                <input type="checkbox" class="btn-check" id="btncheck1B" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="btncheck1B">Monday</label>
-                              
-                                <input type="checkbox" class="btn-check" id="btncheck2B" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="btncheck2B">Chewsday</label>
-                              
-                                <input type="checkbox" class="btn-check" id="btncheck3B" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="btncheck3B">Wednesday</label>
-
-                                <input type="checkbox" class="btn-check" id="btncheck4B" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="btncheck4B">Thursday</label>
-                              
-                                <input type="checkbox" class="btn-check" id="btncheck5B" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="btncheck5B">Friday</label>
-                              
-                                <input type="checkbox" class="btn-check" id="btncheck6B" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="btncheck6B">Saturday</label>
-
-                                <input type="checkbox" class="btn-check" id="btncheck7B" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="btncheck7B">Sunday</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-end">
-                    <div class="col-1">
-                        <a class="button btn-primary btn mb-3" style="margin-top: 40px" href="./doctor_day_times.php" role="button">
-                            Next
-                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-                               <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-                           </svg>
-                       </a>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </body>

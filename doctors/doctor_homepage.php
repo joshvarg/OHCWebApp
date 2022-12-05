@@ -7,34 +7,14 @@
         </style>
         <title>Treatment Fee Selection</title>
     </head>
-    <?php
-    session_start();
-    // $dSSN = $_SESSION["dSSN"]; We will put this in once we can carry over from the last page with the dSSN inputted at the beginning of the session
-    $conn = new mysqli('localhost', 'phpuser', 'phpwd', 'OHCTEST2');
-    $dSSN = '123456789';
-    $treatment = $_SESSION['treatment'];
-    $treatFeeIn = $_POST['TreatmentFeeIn'];
-    $treatFeeOut = $_POST['TreatmentFeeOut'];
-    if (isset($treatment)){
-        if (is_array($treatment)) {
-            for($x = 0; $x < count($treatment); $x++) {
-                $sql = "update doctor_treatment_fee
-                        set inFee = '".$treatFeeIn[$x]."', outFee = '".$treatFeeOut[$x]."'
-                        where dssn = '".$dSSN."' and treatmentCode = '".$treatment[$x]."'";
-                $result = mysqli_query($conn, $sql);
-            }
-        } else {
-            $sql = "update doctor_treatment_fee
-                    set inFee = '".$treatFeeIn."', outFee = '".$treatFeeOut."'
-                    where dssn = '".$dSSN."' and treatmentCode = '".$treatment."'";
-            $result = mysqli_query($conn, $sql);
-        }
-    }
-    ?>
     <body>
         <header class="navbar navbar-expand-md"style="background-color: #5acef2">
             <div class="text-light" style="font-family: Cambria;font-size: 38px"><strong>&nbsp&nbspOhioHealthCSE</strong></div>
         </header>
+        <?php
+            session_start();
+            $dSSN = $_SESSION["dSSN"];
+        ?>
         <div>
             <div class="container">
                 <div class="row justify-content-center" style="margin-top: 10px">

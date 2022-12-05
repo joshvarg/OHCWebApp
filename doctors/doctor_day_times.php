@@ -11,153 +11,90 @@
         <header class="navbar navbar-expand-md" style="background-color: #5acef2">
             <div class="text-light" style="font-family: Cambria;font-size: 38px"><strong>&nbsp&nbspOhioHealthCSE</strong></div>
         </header>
+        <?php
+            session_start();
+            $dSSN = $_SESSION["dSSN"];
+
+            $localhost = 'localhost';
+            $user = 'david';
+            $phpwd = 'phpwd';
+            $db = 'OHCTEST';
+
+            $conn = new mysqli($localhost, $user, $phpwd, $db);
+            $sql = 'select HospitalID FROM hospital, practices_at where practices_at.dSSN = "'.$dSSN.'" and hospital.HospitalID = practices_at.pHID';
+            $result1 = mysqli_query($conn, $sql);
+            while($row = mysqli_fetch_array($result1)) {
+                if(isset($_POST["hosp".$row['HospitalID']])){
+                    if (is_array($_POST["hosp".$row['HospitalID']])) {
+                            foreach($_POST["hosp".$row['HospitalID']] as $hospitalday){
+                            $sql = "insert into doctor_days(Day, dSSN, HospitalID) value ('".$hospitalday."','".$dSSN."','".$row['HospitalID']."')";
+                            $result2 = mysqli_query($conn, $sql);
+                        }
+                    } else {
+                        $sql = "insert into doctor_days(Day, dSSN, HospitalID) value ('".$hospitalday."','".$dSSN."','".$row['HospitalID']."')";
+                        $result2 = mysqli_query($conn, $sql);
+                    }
+                }
+            }
+        ?>
         <div>
             <div class="container">
-                <div class="row justify-content-center" style="margin-top: 30px">
-                    <div class="col text-center display">
-                        <div class="col text-center display" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin-top: 100px"><strong>Please select the time(s) you can be scheduled on Monday for Hospital A</strong></div>
-                        <div class="btn-group" role="group" aria-label="Hospital Time Selection">
-                            <input type="checkbox" class="btn-check" id="btncheckM8A" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckM8A">8:00 AM-9:00 AM</label>
+                <form action="./doctor_treatments.php" method="post">
+                    <?php
+                        $dSSN = $_SESSION["dSSN"];
+                        $conn = new mysqli($localhost, $user, $phpwd, $db);
 
-                            <input type="checkbox" class="btn-check" id="btncheckM9A" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckM9A">9:00 AM-10:00 AM</label>
+                        $sql = 'select pHID from practices_at where practices_at.dSSN = "'.$dSSN.'"';
+                        $result1 = mysqli_query($conn, $sql);
+                        while($row = mysqli_fetch_array($result1)) {
+                            $HID = $row['pHID'];
+                            echo '<div style="margin-top: 75px;">';
+                            $sql = 'select Day, hName from doctor_days, hospital where hospital.HospitalID = "'.$row['pHID'].'" and doctor_days.HospitalID = "'.$row['pHID'].'" and doctor_days.dSSN = "'.$dSSN.'" order by field(Day, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")';
+                            $result2 = mysqli_query($conn, $sql);
+                            while($row = mysqli_fetch_array($result2)) {
+                                echo '<div class="row justify-content-center"">
+                                    <div class="col text-center display">
+                                        <div class="col text-center display" style="font-family:\'Gill Sans\', \'Gill Sans MT\', Calibri, \'Trebuchet MS\', sans-serif; margin-top: 20px"><strong>Please select the time(s) you can be scheduled on '.$row["Day"].' for '.$row["hName"].'</strong></div>
+                                        <div class="btn-group" role="group" aria-label="Hospital Time Selection">
+                                            <input type="checkbox" class="btn-check" id="8'.$row["Day"].''.$HID.'" name="time'.$row["Day"].''.$HID.'[]" value="08:00:00" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="8'.$row["Day"].''.$HID.'">8:00 AM-9:00 AM</label>
 
-                            <input type="checkbox" class="btn-check" id="btncheckM10A" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckM10A">10:00 AM-11:00 AM</label>
+                                            <input type="checkbox" class="btn-check" id="9'.$row["Day"].''.$HID.'" name="time'.$row["Day"].''.$HID.'[]" value="09:00:00" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="9'.$row["Day"].''.$HID.'">9:00 AM-10:00 AM</label>
 
-                            <input type="checkbox" class="btn-check" id="btncheckM11A" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckM11A">11:00 AM-12:00 PM</label>
+                                            <input type="checkbox" class="btn-check" id="10'.$row["Day"].''.$HID.'" name="time'.$row["Day"].''.$HID.'[]" value="10:00:00" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="10'.$row["Day"].''.$HID.'">10:00 AM-11:00 AM</label>
 
-                            <input type="checkbox" class="btn-check" id="btncheckM12A" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckM12A">12:00 PM-1:00 PM</label>
+                                            <input type="checkbox" class="btn-check" id="11'.$row["Day"].''.$HID.'" name="time'.$row["Day"].''.$HID.'[]" value="11:00:00" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="11'.$row["Day"].''.$HID.'">11:00 AM-12:00 PM</label>
 
-                            <input type="checkbox" class="btn-check" id="btncheckM1A" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckM1A">1:00 PM-2:00 PM</label>
+                                            <input type="checkbox" class="btn-check" id="12'.$row["Day"].''.$HID.'" name="time'.$row["Day"].''.$HID.'[]" value="12:00:00" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="12'.$row["Day"].''.$HID.'">12:00 PM-1:00 PM</label>
 
-                            <input type="checkbox" class="btn-check" id="btncheckM2A" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckM2A">2:00 PM-3:00 PM</label>
+                                            <input type="checkbox" class="btn-check" id="13'.$row["Day"].''.$HID.'" name="time'.$row["Day"].''.$HID.'[]" value="13:00:00" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="13'.$row["Day"].''.$HID.'">1:00 PM-2:00 PM</label>
 
-                            <input type="checkbox" class="btn-check" id="btncheckM3A" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckM3A">3:00 PM-4:00 PM</label>
+                                            <input type="checkbox" class="btn-check" id="14'.$row["Day"].''.$HID.'" name="time'.$row["Day"].''.$HID.'[]" value="14:00:00" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="14'.$row["Day"].''.$HID.'">2:00 PM-3:00 PM</label>
 
-                            <input type="checkbox" class="btn-check" id="btncheckM4A" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckM4A">4:00 PM-5:00 PM</label>
+                                            <input type="checkbox" class="btn-check" id="15'.$row["Day"].''.$HID.'" name="time'.$row["Day"].''.$HID.'[]" value="15:00:00" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="15'.$row["Day"].''.$HID.'">3:00 PM-4:00 PM</label>
+
+                                            <input type="checkbox" class="btn-check" id="16'.$row["Day"].''.$HID.'" name="time'.$row["Day"].''.$HID.'[]" value="16:00:00" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="16'.$row["Day"].''.$HID.'">4:00 PM-5:00 PM</label>
+                                        </div>
+                                    </div>
+                                </div>';
+                            }
+                            echo '</div>';
+                        }
+                    ?>
+                    <div class="row justify-content-end" style="margin-y: 50px">
+                        <div class="col-1">
+                            <input type="submit">
                         </div>
                     </div>
-                </div>
-
-                <div class="row justify-content-center">
-                    <div class="col text-center display">
-                        <div class="col text-center display" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin-top: 10px"><strong>Please select the time(s) you can be scheduled on Tuesday for Hospital A</strong></div>
-                        <div class="btn-group" role="group" aria-label="Hospital Time Selection">
-                            <input type="checkbox" class="btn-check" id="btncheckT8A" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckT8A">8:00 AM-9:00 AM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckT9A" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckT9A">9:00 AM-10:00 AM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckT10A" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckT10A">10:00 AM-11:00 AM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckT11A" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckT11A">11:00 AM-12:00 PM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckT12A" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckT12A">12:00 PM-1:00 PM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckT1A" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckT1A">1:00 PM-2:00 PM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckT2A" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckT2A">2:00 PM-3:00 PM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckT3A" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckT3A">3:00 PM-4:00 PM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckT4A" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckT4A">4:00 PM-5:00 PM</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row justify-content-center" style="margin-top: 30px">
-                    <div class="col text-center display">
-                        <div class="col text-center display" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin-top: 100px"><strong>Please select the time(s) you can be scheduled on Wednesday for Hospital B</strong></div>
-                        <div class="btn-group" role="group" aria-label="Hospital Time Selection">
-                            <input type="checkbox" class="btn-check" id="btncheckW8B" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckW8B">8:00 AM-9:00 AM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckW9B" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckW9B">9:00 AM-10:00 AM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckW10B" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckW10B">10:00 AM-11:00 AM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckW11B" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckW11B">11:00 AM-12:00 PM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckW12B" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckW12B">12:00 PM-1:00 PM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckW1B" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckW1B">1:00 PM-2:00 PM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckW2B" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckW2B">2:00 PM-3:00 PM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckW3B" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckW3B">3:00 PM-4:00 PM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckW4B" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckW4B">4:00 PM-5:00 PM</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row justify-content-center">
-                    <div class="col text-center display">
-                        <div class="col text-center display" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin-top: 10px"><strong>Please select the time(s) you can be scheduled on Thursday for Hospital B</strong></div>
-                        <div class="btn-group" role="group" aria-label="Hospital Time Selection">
-                            <input type="checkbox" class="btn-check" id="btncheckTH8B" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckTH8B">8:00 AM-9:00 AM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckTH9B" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckTH9B">9:00 AM-10:00 AM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckTH10B" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckTH10B">10:00 AM-11:00 AM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckTH11B" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckTH11B">11:00 AM-12:00 PM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckTH12B" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckTH12B">12:00 PM-1:00 PM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckTH1B" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckTH1B">1:00 PM-2:00 PM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckTH2B" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckTH2B">2:00 PM-3:00 PM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckTH3B" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckTH3B">3:00 PM-4:00 PM</label>
-
-                            <input type="checkbox" class="btn-check" id="btncheckTH4B" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="btncheckTH4B">4:00 PM-5:00 PM</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-end">
-                    <div class="col-1">
-                        <a class="button btn-primary btn mb-3" style="margin-top: 40px" href="./doctor_treatmentfees.php" role="button">
-                            Next
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </body>

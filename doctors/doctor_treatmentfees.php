@@ -11,6 +11,32 @@
         <header class="navbar navbar-expand-md"style="background-color: #5acef2">
             <div class="text-light" style="font-family: Cambria;font-size: 38px"><strong>&nbsp&nbspOhioHealthCSE</strong></div>
         </header>
+        <?php
+            session_start();
+            $dSSN = $_SESSION["dSSN"];
+
+            $localhost = 'localhost';
+            $user = 'david';
+            $phpwd = 'phpwd';
+            $db = 'OHCTEST';
+
+            $conn = new mysqli($localhost, $user, $phpwd, $db);
+
+            $sql1 = 'select hName, HospitalID from hospital, practices_at where practices_at.dSSN = \''.$dSSN.'\' and practices_at.pHID = hospital.HospitalID';
+            $result1 = mysqli_query($conn, $sql1);
+            while($row = mysqli_fetch_array($result1)) {
+                $HID = $row['HospitalID'];
+                if (is_array($_POST["treatment".$HID])) {
+                    foreach($_POST["treatment".$HID] as $treat){
+                        $sql2 = 'insert into doctor_treatment(dTCode, dSSN, tHID) values ("'.$treat.'", "'.$dSSN.'", "'.$row["HospitalID"].'")';
+                        $result2 = mysqli_query($conn, $sql2);
+                    }
+                } else {
+                    $sql2 = 'insert into doctor_treatment(dTCode, dSSN, tHID) values ("'.$treat.'", "'.$dSSN.'", "'.$row["HospitalID"].'")';
+                    $result3 = mysqli_query($conn, $sql2);
+                }
+            }
+        ?>  
         <div>
             <div class="container">
                 <div class="row justify-content-center" style="margin-top: 20px">
@@ -21,47 +47,33 @@
                 <div class="container px-4" style="margin-left: 555px">
                    <div class="row gx-1" style="margin-top: 30px">
                          <div class="col-sm-2">
-                              <div class="col text" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"><strong>In network</strong></div>
+                              <div class="col text" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"><strong>In network($)</strong></div>
                          </div>
                         <div class="col-sm-2" style="margin-left: 12px">
-                              <div class="col text" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"><strong>Out of network</strong></div>
+                              <div class="col text" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"><strong>Out of network($)</strong></div>
                       </div>
                    </div>
                 </div>
                 <div class="container" style="margin-left: 300px">
                     <div class="col">
-                    <form method="post" style ="margin-top: 15px" action="./doctor_homepage.php">
+                    <form method="post" style ="margin-top: 15px" action="./doctor_treatment_submit.php">
                         <?php
-                        session_start();
-                        // $dSSN = $_SESSION["dSSN"]; We will put this in once we can carry over from the last page with the dSSN inputted at the beginning of the session
-                        $conn = new mysqli('localhost', 'phpuser', 'phpwd', 'OHCTEST2');
-                        $dSSN = '123456789';
-                        $_SESSION["treatment"] = $_POST["treatment"];
-                        if (isset($_POST['treatment'])){
-                            if (is_array($_POST['treatment'])) {
-                                    foreach($_POST['treatment'] as $treat){
-                                    $sql = "insert into doctor_treatment_fee(TreatmentCode, inFee, outFee, dSSN) value ('".$treat."', 0, 0, '".$dSSN."')";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                            } else {
-                                $sql = "insert into practices_at(TreatmentCode, inFee, outFee, dSSN) value ('".$_POST['treatment']."', 0, 0, '".$dSSN."')";
-                                $result = mysqli_query($conn, $sql);
-                            }
-                        }
+                            
+                            $conn = new mysqli($localhost, $user, $phpwd, $db);
 
-                        $sql = 'select tName from doctor_treatment_fee, treatment where doctor_treatment_fee.dSSN = \''.$dSSN.'\' and treatment.TreatmentCode = doctor_treatment_fee.TreatmentCode';
-                        $result = mysqli_query($conn, $sql);
-                        while($row = mysqli_fetch_array($result)) {
-                            echo "<div class=\"form-group row\" style=\"margin-top: 10px\">";
-                            echo "<label class=\"col-sm-2 col-form-label\">", $row['tName'], ": </label>";
-                            echo "<div class=\"col-sm-2\">";
-                            echo "<input type=\"number\" name=\"TreatmentFeeIn[]\" class=\"form-control\"/>";
-                            echo "</div>";
-                            echo "<div class=\"col-sm-2\" style=\"margin-left: 20px\">";
-                            echo "<input type=\"number\" name=\"TreatmentFeeOut[]\" class=\"form-control\"/>";
-                            echo "</div>";
-                            echo "</div>";
-                        }
+                            $sql = 'select distinct tName, TreatmentCode from treatment, doctor_treatment where doctor_treatment.dTCode = treatment.TreatmentCode';
+                            $result = mysqli_query($conn, $sql);
+                            while($row = mysqli_fetch_array($result)) {
+                                echo "<div class=\"form-group row\" style=\"margin-top: 10px\">";
+                                echo "<label class=\"col-sm-2 col-form-label\">", $row['tName'], ": </label>";
+                                echo "<div class=\"col-sm-2\">";
+                                echo "<input type=\"number\" id=\"TreatmentFeeIn".$row["TreatmentCode"]."\" name=\"TreatmentFeeIn".$row["TreatmentCode"]."\" class=\"form-control\"/>";
+                                echo "</div>";
+                                echo "<div class=\"col-sm-2\" style=\"margin-left: 20px\">";
+                                echo "<input type=\"number\" id=\"TreatmentFeeIn".$row["TreatmentCode"]."\" name=\"TreatmentFeeOut".$row["TreatmentCode"]."\" class=\"form-control\"/>";
+                                echo "</div>";
+                                echo "</div>";
+                            }
                         ?>     
                     <div class="row justify-content-end" style="margin-top: 30px">
                         <div class="col">

@@ -9,7 +9,10 @@
     </head>
     <body>
         <?php
-            session_destroy();
+        if(!session_status() === PHP_SESSION_NONE)
+            {
+                session_destroy();
+            }
         ?>
         <header class="navbar navbar-expand-md"style="background-color: #5acef2">
             <div class="text-light" style="font-family: Cambria;font-size: 38px"><strong>&nbsp&nbspOhioHealthCSE</strong></div>
@@ -29,10 +32,14 @@
                             <label for="dssn" class="form-label">SSN</label><br>
                             <input class="form-control mb-1" name="dSSN" placeholder="123456789" pattern="[0-9]{3}[0-9]{2}[0-9]{4}" maxlength="9"><br>
 
-                            <input type="submit">
+                            <div class="row justify-content-end">
+                                <div class="col-1">
+                                    <input type="submit">
+                                </div>
+                            </div>
                         </form>
                     </div>
-                    <div class="col-md">
+                    <div class="col">
                     </div>
                 </div>
             </div>

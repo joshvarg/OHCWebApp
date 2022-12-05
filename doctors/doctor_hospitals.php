@@ -12,11 +12,17 @@
             session_start();
             $_SESSION["dSSN"] = $_POST["dSSN"];
 
-            /*$dName = $_POST["dName"];
+            $dName = $_POST["dName"];
             $dSSN = $_POST["dSSN"];
-            $conn = new mysqli('localhost', 'david', 'phpwd', 'OHCTEST');
+
+            $localhost = 'localhost';
+            $user = 'david';
+            $phpwd = 'phpwd';
+            $db = 'OHCTEST';
+
+            $conn = new mysqli($localhost, $user, $phpwd, $db);
             $sql = "insert into doctor(dSSN, dName) value ('".$dSSN."','".$dName."')";
-            $result = mysqli_query($conn, $sql);*/
+            $result = mysqli_query($conn, $sql);
         ?>
         <header class="navbar navbar-expand-md"style="background-color: #5acef2">
             <div class="text-light" style="font-family: Cambria;font-size: 38px"><strong>&nbsp&nbspOhioHealthCSE</strong></div>
@@ -33,18 +39,22 @@
                 <div class="row" style="margin-top: 30px">
                     <div class="col text-center display">
                         <div class="btn-group-vertical btn-group-lg" role="group" aria-label="Hospital Selection">
-                        <form action="./doctor_hospital_days.php" method="post">
-                            <?php
-                                $conn = new mysqli('localhost', 'david', 'phpwd', 'OHCTEST');
-                                $sql = "select hName, HospitalID FROM HOSPITAL";
-                                $result = mysqli_query($conn, $sql);
-                                    while($row = mysqli_fetch_array($result)) {
-                                        echo '<input type="checkbox" class="btn-check" id="', $row['hName'], '" name="hosp[]" value="', $row['HospitalID'] ,'" autocomplete="off">
-                                              <label class="btn btn-outline-primary" for="', $row['hName'], '">', $row['hName'], '</label>';
-                                    }
-                            ?>
-                            <input type="submit">
-                        </form>
+                            <form action="./doctor_hospital_days.php" method="post">
+                                <?php
+                                    $conn = new mysqli($localhost, $user, $phpwd, $db);
+                                    $sql = "select hName, HospitalID FROM HOSPITAL";
+                                    $result = mysqli_query($conn, $sql);
+                                        while($row = mysqli_fetch_array($result)) {
+                                            echo '<input type="checkbox" class="btn-check" id="', $row['hName'], '" name="hosp[]" value="', $row['HospitalID'] ,'" autocomplete="off">
+                                                  <label class="btn btn-outline-primary" for="', $row['hName'], '">', $row['hName'], '</label>';
+                                        }
+                                ?><br>
+                                <div class="row justify-content-end" style="margin-top: 30px">
+                                    <div class="col-1">
+                                        <input type="submit">
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
