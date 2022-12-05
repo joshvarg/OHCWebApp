@@ -22,7 +22,7 @@
   $result = mysqli_query($conn, $sql);
   $row = mysqli_fetch_array($result);
   if ($row == null) {
-    echo "<p>Error, no patient found!</p><p><a href='home.php'>Go Back</a> OR <a href='register.php'>Register Patient</a></p>";
+    echo "<div class='vstack'><p>Error, no patient found!</p><br><p><a href='patient.php'>Go Back</a> OR <a href='register.php'>Register Patient</a></p></div>";
   } else {
     echo "<div class='vstack gap-3'>";
     echo "<h1 class='patient-name'>Welcome, ".$_SESSION['user']."</h1>";
