@@ -18,44 +18,57 @@
                         <div class="col text-center display" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin-top: 100px"><strong>Please input the fee you would like to assign to each treatment:</strong></div>
                     </div>
                 </div>
-                <div class="row justify-content-center" style="margin-top: 40px; margin-left: 360px">
-                    <div class="col">
-                        <div class="form-group">
-                            <div class="form-group row">
-                                <label for="treatfeeform1" class="col-sm-2 col-form-label">Immunization: </label>
-                                <div class="col-sm-2" style="margin-left: 110px">
-                                    <input type="number" id="treatfeeform1" class="form-control" />
-                                </div>
-                            </div>
-                            <div class="form-group row" style="margin-top:10px">
-                                <label for="treatfeeform2" class="col-sm-2 col-form-label">Chest X-ray: </label>
-                                <div class="col-sm-2" style="margin-left: 110px">
-                                    <input type="number" id="treatfeeform2" class="form-control" />
-                                </div>
-                            </div>
-                            <div class="form-group row" style="margin-top:10px">
-                                <label for="treatfeeform3" class="col-sm-2 col-form-label">Physical exam: </label>
-                                <div class="col-sm-2" style="margin-left: 110px">
-                                    <input type="number" id="treatfeeform3" class="form-control" />
-                                </div>
-                            </div>
-                            <div class="form-group row" style="margin-top:10px">
-                                <label for="treatfeeform4" class="col-sm-2 col-form-label">Diagnostic: </label>
-                                <div class="col-sm-2" style="margin-left: 110px">
-                                    <input type="number" id="treatfeeform4" class="form-control" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="container px-4" style="margin-left: 555px">
+                   <div class="row gx-1" style="margin-top: 30px">
+                         <div class="col-sm-2">
+                              <div class="col text" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"><strong>In network</strong></div>
+                         </div>
+                        <div class="col-sm-2" style="margin-left: 12px">
+                              <div class="col text" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"><strong>Out of network</strong></div>
+                      </div>
+                   </div>
                 </div>
-                <div class="row justify-content-end">
-                    <div class="col-1">
-                        <a class="button btn-primary btn mb-3" style="margin-top: 40px" href="./doctor_homepageA.php" role="button">
-                            Next
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-                            </svg>
-                        </a>
+                <div class="container" style="margin-left: 300px">
+                    <div class="col">
+                    <form method="post" style ="margin-top: 15px" action="./doctor_homepage.php">
+                        <?php
+                        session_start();
+                        // $dSSN = $_SESSION["dSSN"]; We will put this in once we can carry over from the last page with the dSSN inputted at the beginning of the session
+                        $conn = new mysqli('localhost', 'phpuser', 'phpwd', 'OHCTEST2');
+                        $dSSN = '123456789';
+                        $_SESSION["treatment"] = $_POST["treatment"];
+                        if (isset($_POST['treatment'])){
+                            if (is_array($_POST['treatment'])) {
+                                    foreach($_POST['treatment'] as $treat){
+                                    $sql = "insert into doctor_treatment_fee(TreatmentCode, inFee, outFee, dSSN) value ('".$treat."', 0, 0, '".$dSSN."')";
+                                    $result = mysqli_query($conn, $sql);
+                                }
+                            } else {
+                                $sql = "insert into practices_at(TreatmentCode, inFee, outFee, dSSN) value ('".$_POST['treatment']."', 0, 0, '".$dSSN."')";
+                                $result = mysqli_query($conn, $sql);
+                            }
+                        }
+
+                        $sql = 'select tName from doctor_treatment_fee, treatment where doctor_treatment_fee.dSSN = \''.$dSSN.'\' and treatment.TreatmentCode = doctor_treatment_fee.TreatmentCode';
+                        $result = mysqli_query($conn, $sql);
+                        while($row = mysqli_fetch_array($result)) {
+                            echo "<div class=\"form-group row\" style=\"margin-top: 10px\">";
+                            echo "<label class=\"col-sm-2 col-form-label\">", $row['tName'], ": </label>";
+                            echo "<div class=\"col-sm-2\">";
+                            echo "<input type=\"number\" name=\"TreatmentFeeIn[]\" class=\"form-control\"/>";
+                            echo "</div>";
+                            echo "<div class=\"col-sm-2\" style=\"margin-left: 20px\">";
+                            echo "<input type=\"number\" name=\"TreatmentFeeOut[]\" class=\"form-control\"/>";
+                            echo "</div>";
+                            echo "</div>";
+                        }
+                        ?>     
+                    <div class="row justify-content-end" style="margin-top: 30px">
+                        <div class="col">
+                        <input type="submit">
+                        </div>
+                  </div>
+                  </form>    
                     </div>
                 </div>
             </div>
