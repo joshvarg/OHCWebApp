@@ -15,9 +15,9 @@
             session_start();
             $dSSN = $_SESSION["dSSN"];
             $localhost = 'localhost';
-            $user = 'david';
+            $user = 'phpuser';
             $phpwd = 'phpwd';
-            $db = 'OHCTEST';
+            $db = 'OHC';
 
             $conn = new mysqli($localhost, $user, $phpwd, $db);
         ?>

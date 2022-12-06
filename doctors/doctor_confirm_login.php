@@ -2,9 +2,9 @@
     session_start();
 
     $localhost = 'localhost';
-    $user = 'david';
+    $user = 'phpuser';
     $phpwd = 'phpwd';
-    $db = 'OHCTEST';
+    $db = 'OHC';
 
     $conn = new mysqli($localhost, $user, $phpwd, $db);
     $sql = 'select dSSN from doctor where doctor.dSSN = '.$_POST["dSSN"];
