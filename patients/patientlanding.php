@@ -33,6 +33,21 @@
       echo "Not in OHC Network</p>";
     }
     echo "<br>";
+    echo "<div class='container' id='bill-container'>";
+    $bills = "select day, bTime, dName, hName, facility_fee, balance from bill where pSSN=".$_SESSION['pSSN'];
+    $bresult = mysqli_query($conn, $bills);
+    echo "<h3>Bills</h3>";
+    while ($row = mysqli_fetch_array($bresult)) {
+      echo "<div class='row'>";
+      echo "<div class='col'>$row[0]</div>";
+      echo "<div class='col'>$row[1]</div>";
+      echo "<div class='col'>$row[2]</div>";
+      echo "<div class='col'>$row[3]</div>";
+      echo "<div class='col'>$row[4]</div>";
+      echo "<div class='col'>$row[5]</div>";
+      echo "</div>";
+    }
+    echo "</div>";
     echo "<div class='container' id='appt-container'>";
     $appts = "select time, day from appointment where pSSN=".$_SESSION['pSSN'];
     $aresult = mysqli_query($conn, $appts);

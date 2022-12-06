@@ -8,7 +8,8 @@ Create table if not exists SCHEDULE (
     sTime time not null,
     day varchar(10) not null,
     dSSN char(9) not null,
-    PRIMARY KEY(hospitalID, sTime, day, dSSN)
+    PRIMARY KEY(hospitalID, sTime, day, dSSN),
+    FOREIGN KEY(hospitalID) REFERENCES HOSPITAL(hospitalID)
 );
 
 Create table if not exists TREATMENT (
@@ -44,7 +45,7 @@ Create table if not exists BILL (
     bTime time not null,
     facility_fee float not null,
     pSSN char(9) not null,
-    FOREIGN KEY(hName) REFERENCES HOSPITAL(hospitalID)
+    FOREIGN KEY(hName) REFERENCES HOSPITAL(hName)
 );
 
 Create table if not exists PATIENT (
