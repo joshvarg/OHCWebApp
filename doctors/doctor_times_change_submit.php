@@ -17,11 +17,11 @@
         while($row = mysqli_fetch_array($result2)) {
             if (is_array($_POST["time".$row["Day"].$HID])) {
                 foreach($_POST["time".$row["Day"].$HID] as $Time){
-                    $sql = 'insert into schedule(Time, Day, dSSN, HospitalID) value ("'.$Time.'", "'.$row["Day"].'", "'.$dSSN.'", "'.$HID.'")';
+                    $sql = 'insert into schedule(sTime, Day, dSSN, HospitalID) value ("'.$Time.'", "'.$row["Day"].'", "'.$dSSN.'", "'.$HID.'")';
                     $result3 = mysqli_query($conn, $sql);
                 }
             } else {
-                $sql = 'insert into schedule(Time, Day, dSSN, HospitalID) value ("'.$Time.'", "'.$row["Day"].'", "'.$dSSN.'", "'.$HID.'")';
+                $sql = 'insert into schedule(sTime, Day, dSSN, HospitalID) value ("'.$Time.'", "'.$row["Day"].'", "'.$dSSN.'", "'.$HID.'")';
                 $result3 = mysqli_query($conn, $sql);
             }
         }
