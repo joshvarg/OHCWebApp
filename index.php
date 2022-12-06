@@ -24,7 +24,7 @@
                 </div>
                 <div class="row justify-content-center" style="margin-top: 50px">
                     <div class="col d-flex justify-content-center">
-                        <a class="button btn-outline-primary btn btn-lg mb-3" href="./administrators/administrator.php" role="button">Administrators</a>
+                        <a class="button btn-outline-primary btn btn-lg mb-3" href="./administrators/administrator_login.php" role="button">Administrators</a>
                     </div>
                     <div class="col d-flex justify-content-center">
                         <a class="button btn-outline-primary btn btn-lg mb-3" href="./patients/patient.php" role="button">Patients</a>
