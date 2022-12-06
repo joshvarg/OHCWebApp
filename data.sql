@@ -38,3 +38,8 @@ Insert into doctor_treatment_fee values
 ('4006F', '111111111', '100', '150'),
 ('0004A', '222222222', '50', '100'),
 ('2000F', '222222222', '70', '140');
+
+insert into schedule(hospitalID, sTime, day, dSSN) values('00001', '9:30:00', 'Monday', '111111111');
+
+insert into appointment values
+('9:30:00', 'Monday', '111111111', '123456789', '00001', '0004A');

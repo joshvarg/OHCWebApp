@@ -10,7 +10,6 @@ Create table if not exists HOSPITAL (
     UNIQUE(hName),
     UNIQUE(hAddress)
 );
-
 Create table if not exists SCHEDULE (
     hospitalID char(5) not null,
     sTime time not null,
@@ -37,33 +36,21 @@ Create table if not exists SERVICE_FEES (
     FOREIGN KEY (code) REFERENCES TREATMENT(treatmentCode)
 );
 Create table if not exists BILL (
-    billID char(5) primary key not null,
+    billID int primary key not null AUTO_INCREMENT,
     day varchar(10) not null,
-    dName varchar(255) not null,
-    balance float not null,
-    hName varchar(255) not null,
+    dSSN char(9) not null,
+    balance float,
+    hospitalID char(5) not null,
     bTime time not null,
-    facility_fee float not null,
+    facility_fee float,
     pSSN char(9) not null,
-    FOREIGN KEY(hName) REFERENCES HOSPITAL(hName)
+    FOREIGN KEY(hospitalID) REFERENCES HOSPITAL(hospitalID)
 );
 
 Create table if not exists PATIENT (
     pSSN char(9) primary key,
     pName varchar(255) not null,
     in_network boolean not null
-);
-
-Create table if not exists IN_OHC (
-    billID char(5) primary key,
-    rate float not null,
-    FOREIGN KEY(billID) REFERENCES BILL(billID)
-);
-
-Create table if not exists OUT_OHC (
-    billID char(5) primary key,
-    rate float not null,
-    FOREIGN KEY(billID) REFERENCES BILL(billID)
 );
 
 Create table if not exists PRACTICES_AT (
@@ -94,9 +81,11 @@ Create table if not exists APPOINTMENT(
     dSSN char(9) not null,
     pSSN char(9),
     hospitalID char(5),
+    treatmentCode char(5),
     PRIMARY KEY (pSSN,aTime,day,dSSN,hospitalID),
     FOREIGN KEY(hospitalID, aTime, day, dSSN) REFERENCES SCHEDULE(hospitalID, sTime, day, dSSN),
-    FOREIGN KEY(pSSN) REFERENCES PATIENT(pSSN)
+    FOREIGN KEY(pSSN) REFERENCES PATIENT(pSSN),
+    FOREIGN KEY(treatmentCode) REFERENCES TREATMENT(treatmentCode)
 );
 
 Create table if not exists DOCTOR_TREATMENT (
@@ -105,3 +94,27 @@ Create table if not exists DOCTOR_TREATMENT (
 	tHID char(10) not null,
 	primary key (dTCode, dSSN, tHID)
 );
+
+delimiter #
+Create trigger BillTrigger after insert on appointment
+for each row
+  begin
+    set @pssn = new.pSSN;
+    select in_network from patient where pSSN=@pssn into @inn;
+    set @dssn = new.dSSN;
+    set @tcode = new.treatmentCode;
+    select in_fee, out_fee from doctor_treatment_fee where dSSN=@dssn and treatmentCode=@tcode into @ifee, @ofee;
+    set @bal = '0';
+    set @ffee = '0';
+    set @hid = new.hospitalID;
+    select in_fee, out_fee from service_fees where hospitalID=@hid and code=@tcode into @ifee1, @ofee1;
+    if (@inn) then
+      set @bal = @ifee + @ifee1;
+      set @ffee = @ifee1;
+    else
+      set @bal = @ofee + @ofee1;
+      set @ffee = @ofee1;
+    end if;
+    insert into bill(day, dSSN, hospitalID, bTime, pSSN, facility_fee, balance) values (new.day, @dssn, new.hospitalID, new.aTime, @pssn, @ffee, @bal);
+  end#
+delimiter ;
