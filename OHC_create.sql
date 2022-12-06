@@ -1,3 +1,5 @@
+Create database OHC;
+
 Create table if not exists DOCTOR (
     dSSN char(9) primary key not null,
     dName varchar(255) not null
