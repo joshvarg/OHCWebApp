@@ -82,7 +82,6 @@ Create table if not exists ITEMIZED_IN (
 
 Create table if not exists DOCTOR_TREATMENT_FEE (
     treatmentCode char(5) not null,
-    treatment_fee varchar(10) not null,
     dSSN char(9) not null,
     in_fee float not null,
     out_fee float not null,
