@@ -16,7 +16,7 @@
     <div class="d-flex align-items-center justify-content-center">
 <?php
 session_start();
-$conn = new mysqli('localhost', 'root', 'mysql', 'OHC');
+$conn = new mysqli('localhost', 'phpuser', 'phpwd', 'OHC');
 $_SESSION['hID'] = $_POST['hospital'];
 $hid = $_SESSION['hID'];
 $sql = "select hName from hospital where hospitalID='$hid'";

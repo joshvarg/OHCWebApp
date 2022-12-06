@@ -17,7 +17,7 @@
 
 <?php
   session_start();
-  $conn = new mysqli('localhost', 'root', 'mysql', 'OHC');
+  $conn = new mysqli('localhost', 'phpuser', 'mysql', 'ohc');
   $sql = "select pName, in_network FROM PATIENT where pName='".$_SESSION["user"]."'";
   $result = mysqli_query($conn, $sql);
   $row = mysqli_fetch_array($result);
@@ -34,22 +34,26 @@
     }
     echo "<br>";
     echo "<div class='container' id='bill-container'>";
-    $bills = "select day, bTime, dName, hName, facility_fee, balance from bill where pSSN=".$_SESSION['pSSN'];
+    $bills = "select day, bTime, dSSN, hospitalID, facility_fee, balance from bill where pSSN=".$_SESSION['pSSN'];
     $bresult = mysqli_query($conn, $bills);
     echo "<h3>Bills</h3>";
     while ($row = mysqli_fetch_array($bresult)) {
       echo "<div class='row'>";
       echo "<div class='col'>$row[0]</div>";
       echo "<div class='col'>$row[1]</div>";
-      echo "<div class='col'>$row[2]</div>";
-      echo "<div class='col'>$row[3]</div>";
-      echo "<div class='col'>$row[4]</div>";
-      echo "<div class='col'>$row[5]</div>";
+      $q = "select dName from doctor where dSSN=".$row[2];
+      $dn = mysqli_fetch_array(mysqli_query($conn, $q))[0];
+      echo "<div class='col'>$dn</div>";
+      $q = "select hName from hospital where hospitalID=".$row[3];
+      $hn = mysqli_fetch_array(mysqli_query($conn, $q))[0];
+      echo "<div class='col'>$hn Hospital</div>";
+      echo "<div class='col'>Facility fee:\$$row[4]</div>";
+      echo "<div class='col'>Balance:\$$row[5]</div>";
       echo "</div>";
     }
     echo "</div>";
     echo "<div class='container' id='appt-container'>";
-    $appts = "select time, day from appointment where pSSN=".$_SESSION['pSSN'];
+    $appts = "select aTime, day from appointment where pSSN=".$_SESSION['pSSN'];
     $aresult = mysqli_query($conn, $appts);
     echo "<h3>Appointments</h3>";
     while ($row = mysqli_fetch_array($aresult)) {

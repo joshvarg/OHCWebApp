@@ -16,7 +16,7 @@
     <div class="d-flex align-items-center justify-content-center">
 <?php
 session_start();
-$conn = new mysqli('localhost', 'root', 'mysql', 'OHC');
+$conn = new mysqli('localhost', 'phpuser', 'phpwd', 'OHC');
 $_SESSION['dSSN'] = $_POST['doctor'];
 $dssn=$_SESSION['dSSN'];
 $sql = "select dName from doctor where dSSN='$dssn'";

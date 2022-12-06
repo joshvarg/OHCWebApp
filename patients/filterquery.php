@@ -18,7 +18,7 @@
   session_start();
   $_SESSION['treatment']  = $_POST['treatment'];
   $tid = $_POST['treatment'];
-  $conn = new mysqli('localhost', 'root', 'mysql', 'OHC');
+  $conn = new mysqli('localhost', 'phpuser', 'phpwd', 'OHC');
   $sql = "select dName, doctor.dSSN, tName from treatment, doctor, doctor_treatment_fee where doctor.dSSN=doctor_treatment_fee.dSSN and treatment.TreatmentID='$tid' and doctor_treatment_fee.TreatmentID='$tid'";
   $result = mysqli_query($conn, $sql);
   echo "<div class='vstack gap-3'>";
