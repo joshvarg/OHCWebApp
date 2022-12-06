@@ -10,6 +10,16 @@ Create table if not exists HOSPITAL (
     UNIQUE(hName),
     UNIQUE(hAddress)
 );
+
+Create table if not exists DOCTOR_DAYS (
+    day varchar(10) not null,
+    dSSN char(9) not null,
+    hospitalID char(5) not null,
+    PRIMARY KEY(hospitalID, day, dSSN),
+    FOREIGN KEY(hospitalID) REFERENCES HOSPITAL(hospitalID),
+    FOREIGN KEY(dSSN) REFERENCES DOCTOR(dSSN)
+);
+
 Create table if not exists SCHEDULE (
     hospitalID char(5) not null,
     sTime time not null,

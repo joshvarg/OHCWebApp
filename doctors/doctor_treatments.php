@@ -16,25 +16,25 @@
             $dSSN = $_SESSION["dSSN"];
 
             $localhost = 'localhost';
-            $user = 'david';
+            $user = 'phpuser';
             $phpwd = 'phpwd';
-            $db = 'OHCTEST';
+            $db = 'OHC';
 
             $conn = new mysqli($localhost, $user, $phpwd, $db);
-            $sql = 'select pHID from practices_at where practices_at.dSSN = "'.$dSSN.'"';
+            $sql = 'select practices_at.hospitalID from practices_at where practices_at.dSSN = "'.$dSSN.'"';
             $result1 = mysqli_query($conn, $sql);
             while($row = mysqli_fetch_array($result1)) {
-                $HID = $row['pHID'];
-                $sql = 'select Day from doctor_days where doctor_days.HospitalID = "'.$row['pHID'].'" and doctor_days.dSSN = "'.$dSSN.'" order by field(Day, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")';
+                $HID = $row[0];
+                $sql = 'select Day from doctor_days where doctor_days.HospitalID = "'.$row[0].'" and doctor_days.dSSN = "'.$dSSN.'" order by field(Day, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")';
                 $result2 = mysqli_query($conn, $sql);
                 while($row = mysqli_fetch_array($result2)) {
                     if (is_array($_POST["time".$row["Day"].$HID])) {
                             foreach($_POST["time".$row["Day"].$HID] as $Time){
-                            $sql = 'insert into schedule(Time, Day, dSSN, HospitalID) value ("'.$Time.'", "'.$row["Day"].'", "'.$dSSN.'", "'.$HID.'")';
+                            $sql = 'insert into schedule(sTime, Day, dSSN, HospitalID) value ("'.$Time.'", "'.$row["Day"].'", "'.$dSSN.'", "'.$HID.'")';
                             $result3 = mysqli_query($conn, $sql);
                         }
                     } else {
-                        $sql = 'insert into schedule(Time, Day, dSSN, HospitalID) value ("'.$Time.'", "'.$row["Day"].'", "'.$dSSN.'", "'.$HID.'")';
+                        $sql = 'insert into schedule(sTime, Day, dSSN, HospitalID) value ("'.$Time.'", "'.$row["Day"].'", "'.$dSSN.'", "'.$HID.'")';
                         $result3 = mysqli_query($conn, $sql);
                     }
                 }
@@ -47,9 +47,9 @@
                         <?php
                             $dSSN = $_SESSION["dSSN"];
                             $conn = new mysqli($localhost, $user, $phpwd, $db);
-                            $sql1 = 'select hName, HospitalID from hospital, practices_at where practices_at.dSSN = \''.$dSSN.'\' and practices_at.pHID = hospital.HospitalID';
+                            $sql1 = 'select hospital.hName, hospital.HospitalID from hospital, practices_at where practices_at.dSSN = \''.$dSSN.'\' and practices_at.hospitalID = hospital.HospitalID';
                             $result1 = mysqli_query($conn, $sql1);
-                            $sql2 = 'select tName, TreatmentCode from treatment order by field(tName, "Immunization", "Chest X-ray", "Physical Exam", "Diagnostic")';
+                            $sql2 = 'select treatment.tName, treatment.TreatmentCode from treatment order by field(tName, "Immunization", "Chest X-ray", "Physical Exam", "Diagnostic")';
                             while($row = mysqli_fetch_array($result1)) {
                                 $HID = $row['HospitalID'];
                                 echo "<div class=\"col text-center display\">";

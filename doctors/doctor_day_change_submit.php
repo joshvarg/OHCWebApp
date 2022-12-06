@@ -3,12 +3,12 @@
     $dSSN = $_SESSION["dSSN"];
     
     $localhost = 'localhost';
-    $user = 'david';
+    $user = 'phpuser';
     $phpwd = 'phpwd';
-    $db = 'OHCTEST';
+    $db = 'OHC';
     
     $conn = new mysqli($localhost, $user, $phpwd, $db);
-    $sql = 'select HospitalID FROM hospital, practices_at where practices_at.dSSN = "'.$dSSN.'" and hospital.HospitalID = practices_at.pHID';
+    $sql = 'select hospital.HospitalID FROM hospital, practices_at where practices_at.dSSN = "'.$dSSN.'" and hospital.HospitalID = practices_at.hospitalID';
     $result1 = mysqli_query($conn, $sql);
     while($row = mysqli_fetch_array($result1)) {
         if(isset($_POST["hosp".$row['HospitalID']])){

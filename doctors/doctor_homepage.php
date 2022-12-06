@@ -88,7 +88,7 @@
                         $result3 = mysqli_query($conn, $sql3);
                         while($row3 = mysqli_fetch_array($result3)) {
                             echo '<div class="col text display style=margin-top: 10px">';
-                            echo '<div class="col text display" style="font-family:\'Gill Sans\', \'Gill Sans MT\', Calibri, \'Trebuchet MS\', sans-serif"><strong>', $row3["day"],' at", ', $row3["time"], '</strong></div>';
+                            echo '<div class="col text display" style="font-family:\'Gill Sans\', \'Gill Sans MT\', Calibri, \'Trebuchet MS\', sans-serif">', $row3["day"],' at: ', $row3["sTime"], '</div>';
                             echo '</div>';
                         }
                         echo '</div>';

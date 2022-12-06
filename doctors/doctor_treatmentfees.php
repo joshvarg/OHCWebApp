@@ -16,13 +16,13 @@
             $dSSN = $_SESSION["dSSN"];
 
             $localhost = 'localhost';
-            $user = 'david';
+            $user = 'phpuser';
             $phpwd = 'phpwd';
-            $db = 'OHCTEST';
+            $db = 'OHC';
 
             $conn = new mysqli($localhost, $user, $phpwd, $db);
 
-            $sql1 = 'select hName, HospitalID from hospital, practices_at where practices_at.dSSN = \''.$dSSN.'\' and practices_at.pHID = hospital.HospitalID';
+            $sql1 = 'select hospital.hName, hospital.HospitalID from hospital, practices_at where practices_at.dSSN = \''.$dSSN.'\' and practices_at.hospitalID = hospital.HospitalID';
             $result1 = mysqli_query($conn, $sql1);
             while($row = mysqli_fetch_array($result1)) {
                 $HID = $row['HospitalID'];
@@ -61,7 +61,7 @@
                             
                             $conn = new mysqli($localhost, $user, $phpwd, $db);
 
-                            $sql = 'select distinct tName, TreatmentCode from treatment, doctor_treatment where doctor_treatment.dSSN = '.$dSSN.' and doctor_treatment.dTCode = treatment.TreatmentCode order by field(tName, "Immunization", "Chest X-ray", "Physical Exam", "Diagnostic")';
+                            $sql = 'select distinct treatment.tName, TreatmentCode from treatment, doctor_treatment where doctor_treatment.dSSN = '.$dSSN.' and doctor_treatment.dTCode = treatment.TreatmentCode order by field(tName, "Immunization", "Chest X-ray", "Physical Exam", "Diagnostic")';
                             $result = mysqli_query($conn, $sql);
                             while($row = mysqli_fetch_array($result)) {
                                 echo "<div class=\"form-group row\" style=\"margin-top: 10px\">";

@@ -16,9 +16,9 @@
             $dSSN = $_SESSION["dSSN"];
 
             $localhost = 'localhost';
-            $user = 'david';
+            $user = 'phpuser';
             $phpwd = 'phpwd';
-            $db = 'OHCTEST';
+            $db = 'OHC';
 
             $conn = new mysqli($localhost, $user, $phpwd, $db);
             $sql = "delete from doctor_days where dSSN = ".$dSSN;
@@ -30,7 +30,7 @@
                     <?php
                         $dSSN = $_SESSION["dSSN"];
                         $conn = new mysqli($localhost, $user, $phpwd, $db);
-                        $sql = 'select hName, HospitalID FROM hospital, practices_at where practices_at.dSSN = "'.$dSSN.'" and hospital.HospitalID = practices_at.pHID';
+                        $sql = 'select hospital.hName, hospital.HospitalID FROM hospital, practices_at where practices_at.dSSN = "'.$dSSN.'" and hospital.HospitalID = practices_at.hospitalID';
                         $result = mysqli_query($conn, $sql);
                         while($row = mysqli_fetch_array($result)) {
                             echo '<div class="row text_center justify-content-center" style="margin-top: 30px';

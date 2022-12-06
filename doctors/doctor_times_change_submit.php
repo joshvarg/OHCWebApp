@@ -3,16 +3,16 @@
     $dSSN = $_SESSION["dSSN"];
 
     $localhost = 'localhost';
-    $user = 'david';
+    $user = 'phpuser';
     $phpwd = 'phpwd';
-    $db = 'OHCTEST';
+    $db = 'OHC';
 
     $conn = new mysqli($localhost, $user, $phpwd, $db);
-    $sql = 'select pHID from practices_at where practices_at.dSSN = "'.$dSSN.'"';
+    $sql = 'select hospitalID from practices_at where practices_at.dSSN = "'.$dSSN.'"';
     $result1 = mysqli_query($conn, $sql);
     while($row = mysqli_fetch_array($result1)) {
-        $HID = $row['pHID'];
-        $sql = 'select Day from doctor_days where doctor_days.HospitalID = "'.$row['pHID'].'" and doctor_days.dSSN = "'.$dSSN.'" order by field(Day, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")';
+        $HID = $row[0];
+        $sql = 'select Day from doctor_days where doctor_days.HospitalID = "'.$row[0].'" and doctor_days.dSSN = "'.$dSSN.'" order by field(Day, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")';
         $result2 = mysqli_query($conn, $sql);
         while($row = mysqli_fetch_array($result2)) {
             if (is_array($_POST["time".$row["Day"].$HID])) {

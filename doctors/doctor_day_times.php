@@ -16,12 +16,12 @@
             $dSSN = $_SESSION["dSSN"];
 
             $localhost = 'localhost';
-            $user = 'david';
+            $user = 'phpuser';
             $phpwd = 'phpwd';
-            $db = 'OHCTEST';
+            $db = 'OHC';
 
             $conn = new mysqli($localhost, $user, $phpwd, $db);
-            $sql = 'select HospitalID FROM hospital, practices_at where practices_at.dSSN = "'.$dSSN.'" and hospital.HospitalID = practices_at.pHID';
+            $sql = 'select hospital.HospitalID FROM hospital, practices_at where practices_at.dSSN = "'.$dSSN.'" and hospital.HospitalID = practices_at.hospitalID';
             $result1 = mysqli_query($conn, $sql);
             while($row = mysqli_fetch_array($result1)) {
                 if(isset($_POST["hosp".$row['HospitalID']])){
@@ -44,12 +44,12 @@
                         $dSSN = $_SESSION["dSSN"];
                         $conn = new mysqli($localhost, $user, $phpwd, $db);
 
-                        $sql = 'select pHID from practices_at where practices_at.dSSN = "'.$dSSN.'"';
+                        $sql = 'select practices_at.hospitalID from practices_at where practices_at.dSSN = "'.$dSSN.'"';
                         $result1 = mysqli_query($conn, $sql);
                         while($row = mysqli_fetch_array($result1)) {
-                            $HID = $row['pHID'];
+                            $HID = $row[0];
                             echo '<div style="margin-top: 75px;">';
-                            $sql = 'select Day, hName from doctor_days, hospital where hospital.HospitalID = "'.$row['pHID'].'" and doctor_days.HospitalID = "'.$row['pHID'].'" and doctor_days.dSSN = "'.$dSSN.'" order by field(Day, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")';
+                            $sql = 'select Day, hName from doctor_days, hospital where hospital.HospitalID = "'.$row[0].'" and doctor_days.HospitalID = "'.$row[0].'" and doctor_days.dSSN = "'.$dSSN.'" order by field(Day, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")';
                             $result2 = mysqli_query($conn, $sql);
                             while($row = mysqli_fetch_array($result2)) {
                                 echo '<div class="row justify-content-center"">
