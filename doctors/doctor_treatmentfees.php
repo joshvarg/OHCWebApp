@@ -61,7 +61,7 @@
                             
                             $conn = new mysqli($localhost, $user, $phpwd, $db);
 
-                            $sql = 'select distinct tName, TreatmentCode from treatment, doctor_treatment where doctor_treatment.dTCode = treatment.TreatmentCode order by field(tName, "Immunization", "Chest X-ray", "Physical Exam", "Diagnostic")';
+                            $sql = 'select distinct tName, TreatmentCode from treatment, doctor_treatment where doctor_treatment.dSSN = '.$dSSN.' and doctor_treatment.dTCode = treatment.TreatmentCode order by field(tName, "Immunization", "Chest X-ray", "Physical Exam", "Diagnostic")';
                             $result = mysqli_query($conn, $sql);
                             while($row = mysqli_fetch_array($result)) {
                                 echo "<div class=\"form-group row\" style=\"margin-top: 10px\">";
