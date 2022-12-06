@@ -54,9 +54,9 @@
                         //in the treatments tab, print out all the treatment names and associated in/out fees.
 
                         echo '<div class="col text-center display">';
-                        echo '<div class="col text-center display" style="font-family:\'Gill Sans\', \'Gill Sans MT\', Calibri, \'Trebuchet MS\', sans-serif; margin-top: 10px">', $row["tName"],'</div>';
-                        echo '<div class="col text-center display" style="font-family:\'Gill Sans\', \'Gill Sans MT\', Calibri, \'Trebuchet MS\', sans-serif">In fee: ', $row["inFee"],'</div>';
-                        echo '<div class="col text-center display" style="font-family:\'Gill Sans\', \'Gill Sans MT\', Calibri, \'Trebuchet MS\', sans-serif">Out fee: ', $row["outFee"],'</div>';
+                        echo '<div class="col text-center display" style="font-family:\'Gill Sans\', \'Gill Sans MT\', Calibri, \'Trebuchet MS\', sans-serif; margin-top: 10px"><strong>', $row["tName"],'</strong></div>';
+                        echo '<div class="col text-center display" style="font-family:\'Gill Sans\', \'Gill Sans MT\', Calibri, \'Trebuchet MS\', sans-serif">In fee: ', $row["in_fee"],'</div>';
+                        echo '<div class="col text-center display" style="font-family:\'Gill Sans\', \'Gill Sans MT\', Calibri, \'Trebuchet MS\', sans-serif">Out fee: ', $row["out_fee"],'</div>';
                         echo '</div>';
                      }
                     ?>
