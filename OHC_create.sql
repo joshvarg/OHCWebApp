@@ -26,6 +26,15 @@ Create table if not exists HOSPITAL (
     UNIQUE(hAddress)
 );
 
+Create table if not exists SERVICE_FEES (
+    hospitalID char(5) not null,
+    code char(5) not null,
+    in_fee float not null,
+    out_fee float not null,
+    PRIMARY KEY (hospitalID, code),
+    FOREIGN KEY (hospitalID) REFERENCES HOSPITAL(hospitalID),
+    FOREIGN KEY (code) REFERENCES TREATMENT(treatmentCode)
+);
 Create table if not exists BILL (
     billID char(5) primary key not null,
     day varchar(10) not null,
