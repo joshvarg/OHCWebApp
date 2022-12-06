@@ -23,7 +23,9 @@
         $hospAddress = $_SESSION["hAddress"];
 
         $sql = "insert into HOSPITAL(hName, hospitalID, hAddress) value ('".$hospName."', '".$hospID."', '".$hospAddress."')";       
-        mysqli_query($conn, $sql);        
+        mysqli_query($conn, $sql);     
+        
+        session_destroy();
     ?>  
     <meta http-equiv="refresh" content="2;URL=./administrator_hospitalInfo.php"/>
     </body>
