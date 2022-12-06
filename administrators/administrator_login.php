@@ -14,7 +14,7 @@
         <div>
             <div class="container">
                 <div class="row justify-content-center" style="margin-top: 100px">
-                    <div class="col text-center display-3" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"><strong>Login</strong></div>
+                    <div class="col text-center display-3" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"><strong>Administrator Login</strong></div>
                 </div>
                 <div class="row" style="margin-top: 50px">
                     <div class="col">
