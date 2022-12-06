@@ -16,9 +16,9 @@
             $dSSN = $_POST["dSSN"];
 
             $localhost = 'localhost';
-            $user = 'phpuser';
+            $user = 'david';
             $phpwd = 'phpwd';
-            $db = 'OHC';
+            $db = 'OHCTEST';
 
             $conn = new mysqli($localhost, $user, $phpwd, $db);
             $sql = "insert into doctor(dSSN, dName) value ('".$dSSN."','".$dName."')";

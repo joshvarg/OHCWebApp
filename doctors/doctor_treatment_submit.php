@@ -3,9 +3,9 @@
     $dSSN = $_SESSION["dSSN"];
 
     $localhost = 'localhost';
-    $user = 'phpuser';
+    $user = 'david';
     $phpwd = 'phpwd';
-    $db = 'OHC';
+    $db = 'OHCTEST';
 
     $conn = new mysqli($localhost, $user, $phpwd, $db);
     $sql = 'select distinct tName, TreatmentCode from treatment, doctor_treatment where doctor_treatment.dTCode = treatment.TreatmentCode order by field(tName, "Immunization", "Chest X-ray", "Physical Exam", "Diagnostic")';

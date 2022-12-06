@@ -14,6 +14,7 @@
         <?php
         session_start();
         $conn = new mysqli('localhost', 'phpuser', 'phpwd', 'OHC');
+        
         $_SESSION["hName"] = $_POST["hName"];
         $_SESSION["hospitalID"] = $_POST["hospitalID"];
         $_SESSION["hAddress"] = $_POST["hAddress"];
@@ -23,7 +24,6 @@
 
         $sql = "insert into HOSPITAL(hName, hospitalID, hAddress) value ('".$hospName."', '".$hospID."', '".$hospAddress."')";       
         mysqli_query($conn, $sql);        
-        session_destroy();
     ?>  
     <meta http-equiv="refresh" content="2;URL=./administrator_hospitalInfo.php"/>
     </body>

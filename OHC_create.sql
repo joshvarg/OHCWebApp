@@ -1,8 +1,14 @@
-Create database OHC;
-
 Create table if not exists DOCTOR (
     dSSN char(9) primary key not null,
     dName varchar(255) not null
+);
+
+Create table if not exists HOSPITAL (
+    hospitalID char(5) primary key not null,
+    hName varchar(255) not null,
+    hAddress varchar(255) not null,
+    UNIQUE(hName),
+    UNIQUE(hAddress)
 );
 
 Create table if not exists SCHEDULE (
@@ -19,14 +25,6 @@ Create table if not exists TREATMENT (
     tName varchar(255) not null,
     primary key(treatmentCode),
     UNIQUE(tName)
-);
-
-Create table if not exists HOSPITAL (
-    hospitalID char(5) primary key not null,
-    hName varchar(255) not null,
-    hAddress varchar(255) not null,
-    UNIQUE(hName),
-    UNIQUE(hAddress)
 );
 
 Create table if not exists SERVICE_FEES (
@@ -84,7 +82,6 @@ Create table if not exists ITEMIZED_IN (
 
 Create table if not exists DOCTOR_TREATMENT_FEE (
     treatmentCode char(5) not null,
-    treatment_fee varchar(10) not null,
     dSSN char(9) not null,
     in_fee float not null,
     out_fee float not null,

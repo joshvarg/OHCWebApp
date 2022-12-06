@@ -39,7 +39,7 @@
                                 </div>
                             </div>
                         </form>
-                        <a href="./doctor_register.php">Don't have an account? Register here!</a>
+                        <a href="./doctor_register.php">Don't have and account? Register here!</a>
                     </div>
                     <div class="col">
                     </div>

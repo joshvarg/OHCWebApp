@@ -23,9 +23,17 @@
         ?>
         <div>
             <div class="container">
-                <div class="row justify-content-center" style="margin-top: 10px">
+            <div class="row justify-content-center" style="margin-top: 10px">
+                    <a href="../index.php">Home</a>
                     <div class="col text-center display">
-                        <div class="col text-center display-6" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin-top: 40px"><strong>Welcome, ______! </strong></div>
+                        <?php
+                            $conn = new mysqli($localhost, $user, $phpwd, $db);
+                            $sql = 'select dName FROM doctor where doctor.dSSN = '.$dSSN;
+                            $result1 = mysqli_query($conn, $sql);
+                            while($row = mysqli_fetch_array($result1)) {
+                                echo "<div class=\"col text-center display-6\" style=\"font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin-top: 40px\"><strong>Welcome, &nbsp;".$row["dName"]." </strong></div>";
+                            }
+                        ?>
                     </div>
                 </div>
                   <ul class="nav nav-tabs nav-fill", style="margin-top:30px">
@@ -39,7 +47,7 @@
                 <div class="container">
                      <div class="row justify-content-center">
                      <?php
-                     $sql = 'select tName, inFee, outFee from doctor_treatment_fee where doctor_treatment_fee.dssn = \''.$dSSN.'\'';
+                     $sql = 'select tName, in_fee, out_fee from doctor_treatment_fee, treatment where doctor_treatment_fee.dssn = \''.$dSSN.'\' and doctor_treatment_fee.treatmentCode = treatment.treatmentCode';
                      $result = mysqli_query($conn, $sql);
 
                     while($row = mysqli_fetch_array($result)) {

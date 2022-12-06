@@ -11,7 +11,7 @@
         <header class="navbar navbar-expand-md"style="background-color: #5acef2">
             <div class="text-light" style="font-family: Cambria;font-size: 38px"><strong>&nbsp&nbspOhioHealthCSE</strong></div>
         </header>
-        <?php
+        <?php 
         session_start();
         $conn = new mysqli('localhost', 'phpuser', 'phpwd', 'OHC');
         $sql = 'SELECT code, hospitalID FROM service_fees';
@@ -24,12 +24,15 @@
 
         $code = array();
         $hospId = array();
+        echo $in_fee[0];
         $count = 0;
         while($row = mysqli_fetch_array($result)) {
             $count++;
         }
+
         $sql = 'SELECT code, hospitalID FROM service_fees';
         $result = mysqli_query($conn, $sql);
+
         $i = 0;
         while($row = mysqli_fetch_array($result)) { // Each row is one individual code            
             $code = $row[0];
@@ -40,6 +43,8 @@
             mysqli_query($conn, $sql);
             $i++;
         }
+
+        
     ?>  
     <meta http-equiv="refresh" content="2;URL=./administrator_serviceCode.php"/>
     </body>

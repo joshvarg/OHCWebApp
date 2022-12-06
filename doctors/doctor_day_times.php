@@ -16,9 +16,9 @@
             $dSSN = $_SESSION["dSSN"];
 
             $localhost = 'localhost';
-            $user = 'phpuser';
+            $user = 'david';
             $phpwd = 'phpwd';
-            $db = 'OHC';
+            $db = 'OHCTEST';
 
             $conn = new mysqli($localhost, $user, $phpwd, $db);
             $sql = 'select HospitalID FROM hospital, practices_at where practices_at.dSSN = "'.$dSSN.'" and hospital.HospitalID = practices_at.pHID';
